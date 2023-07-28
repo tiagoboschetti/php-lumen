@@ -22,7 +22,7 @@ class TransactionController extends BaseController
             $service = new TransactionService();
             $service->payOrCry($transactionDTO);
 
-            return $this->responseData('Pagamento realizado com Sucesso.');
+            return $this->responseData('Payment successful!');
         } catch (\Exception $e) {
             return $this->responseData($e->getMessage(), $e->getCode());
         }

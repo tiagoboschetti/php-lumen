@@ -32,12 +32,12 @@ class UserResourceTest extends TestCase
         $userData = $this->provideUserResourceData();
 
         Assert::assertIsArray($userData);
-        Assert::assertEquals('Foo', $userData['name']);
-        Assert::assertEquals('foo@bar.com', $userData['email']);
-        Assert::assertEquals(UserTypeEnum::Common, $userData['type']);
+        Assert::assertEquals('Apollo', $userData['name']);
+        Assert::assertEquals('apollo@stars.com', $userData['email']);
+        Assert::assertEquals(UserTypeEnum::Natural, $userData['type']);
     }
 
-    public function test_ToArray_GivenValidExchange_ShouldReturnAnArrayWithTheExpectedIndexes(): void
+    public function test_ToArray_GivenValidUser_ShouldReturnArrayWithExpectedIndexes(): void
     {
         $userData = $this->provideUserResourceData();
 
@@ -50,9 +50,9 @@ class UserResourceTest extends TestCase
     private function provideUserResourceData(): array
     {
         $userData = new UserModel([
-            'name' => 'Foo',
-            'email' => 'foo@bar.com',
-            'type' => UserTypeEnum::Common,
+            'name' => 'Apollo',
+            'email' => 'apollo@stars.com',
+            'type' => UserTypeEnum::Natural,
         ]);
 
         $resource = new UserResource($userData);

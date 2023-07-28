@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Enums\UserTypeEnum;
+use App\Enums\DepositStatusEnum;
 
 return new class extends Migration
 {
@@ -12,13 +12,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('deposits', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email', 100)->unique();
-            $table->string('password');
-            $table->boolean('active');
-            $table->enum('type', UserTypeEnum::all());
+            $table->enum('status', DepositStatusEnum::all());
+            $table->decimal('amount', 11, 2);
+
+            $table->unsignedBigInteger('payee_id')
+                ->foreign('payee_id')
+                ->references('id')
+                ->on('users');
+
             $table->timestamps();
             $table->softDeletes();
         });
@@ -29,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('deposits');
     }
 };

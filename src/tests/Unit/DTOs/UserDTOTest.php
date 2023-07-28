@@ -15,14 +15,14 @@ class UserDTOTest extends TestCase
         $dto = UserDTO::fromArray([
             'name' => 'Severo Snape',
             'email' => 'severo@snape.com',
-            'type' => UserTypeEnum::Shopkeeper->value,
+            'type' => UserTypeEnum::Legal->value,
             'document_type' => DocumentTypeEnum::CPF->value,
             'document_number' => '0123456789',
         ]);
 
         Assert::assertEquals('Severo Snape', $dto->getName());
         Assert::assertEquals('severo@snape.com', $dto->getEmail());
-        Assert::assertEquals(UserTypeEnum::Shopkeeper, $dto->getType());
+        Assert::assertEquals(UserTypeEnum::Legal, $dto->getType());
         Assert::assertEquals(DocumentTypeEnum::CPF, $dto->getDocumentType());
         Assert::assertEquals('0123456789', $dto->getDocumentNumber());
     }

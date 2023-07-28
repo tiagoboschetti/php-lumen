@@ -13,30 +13,30 @@ use Illuminate\Support\Str;
 
 final class TransactionService
 {
-    public function payOrCry(TransactionDTO $transactionDTO)
+    public function payOrCry(TransactionDTO $transactionDTO): void
     {
         $payer = $transactionDTO->getPayer();
         $payee = $transactionDTO->getPayee();
 
-        if ($payer->type === UserTypeEnum::Shopkeeper) {
-            throw new \Exception('Usuário não pode realizar uma transação de dinheiro.', 400);
+        if ($payer->type === UserTypeEnum::Legal) {
+            throw new \Exception('Legal users cannot perform transactions.', 400);
         }
 
         if ($payer->wallet->available_balance <= $transactionDTO->getAmount()) {
-            throw new \Exception('Usuário não tem saldo em sua carteira.', 400);
+            throw new \Exception('Insufficient balance!', 400);
         }
 
-        $payable = new UserCommonService($payer);
+        $payable = new NaturalUserService($payer);
 
-        $receivable = $payee->type === UserTypeEnum::Shopkeeper
-            ? new UserShopkeeperService($payee)
-            : new UserCommonService($payee);
+        $receivable = $payee->type === UserTypeEnum::Legal
+            ? new LegalUserService($payee)
+            : new NaturalUserService($payee);
 
 
         $this->pay($payable, $receivable, $transactionDTO);
     }
 
-    private function pay(PayableInterface $payable, ReceivableInterface $receiveable, TransactionDTO $transactionDTO)
+    private function pay(PayableInterface $payable, ReceivableInterface $receiveable, TransactionDTO $transactionDTO): void
     {
         try {
             $transaction = new TransactionModel([
@@ -46,6 +46,8 @@ final class TransactionService
                 'payer_id' => $transactionDTO->getPayerId(),
                 'payee_id' => $transactionDTO->getPayeeId(),
             ]);
+
+            $transaction->status = TransactionStatusEnum:: Successful;
             $transaction->save();
 
             DB::transaction(function () use ($payable, $receiveable, $transaction) {

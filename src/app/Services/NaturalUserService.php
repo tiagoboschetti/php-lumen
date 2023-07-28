@@ -6,6 +6,7 @@ use App\Enums\TransactionStatusEnum;
 use App\Interfaces\PayableInterface;
 use App\Interfaces\ReceivableInterface;
 use App\Models\TransactionModel;
+use App\Models\DepositModel;
 use App\Models\UserModel;
 use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Support\Facades\Log;
@@ -14,13 +15,13 @@ class NaturalUserService implements ReceivableInterface, PayableInterface
 {
     private const AUTHORIZED = 'Autorizado';
 
-    private PayAuthorizationHttpClient $client;
+    private PaymentAuthorizationHttpClient $client;
     private UserModel $user;
 
     public function __construct(UserModel $user)
     {
         $this->user = $user;
-        $this->client = new PayAuthorizationHttpClient(app(GuzzleClient::class));
+        $this->client = new PaymentAuthorizationHttpClient(app(GuzzleClient::class));
     }
 
     public function pay(TransactionModel $transaction): void
@@ -39,13 +40,13 @@ class NaturalUserService implements ReceivableInterface, PayableInterface
     {
         $this->user->wallet->available_balance = $this->user->wallet->available_balance + $transaction->amount;
         $this->user->wallet->save();
+        //$this->notify();
     }
 
-    public function notify(): void
+    public function depositMoney(DepositModel $deposit): void
     {
-        // implementar serviço de envio de notificação
-        // cenário ideal seria jogar para um sqs/kafka para enviar assincronamente
-        // e se ao acaso serviço estiver disponivel, criar um command/job para retentar
+        $this->user->wallet->available_balance = $this->user->wallet->available_balance + $deposit->amount;
+        $this->user->wallet->save();
     }
 
     protected function dispachRequestToAuthorize(): array 
@@ -53,7 +54,7 @@ class NaturalUserService implements ReceivableInterface, PayableInterface
         $result = $this->client->authorize();
 
         if (!$contents = $result->getBody()->getContents()) {
-            $errorMessage = 'Error to retrieve information from the API.';
+            $errorMessage = 'Error retrieving information from API.';
             Log::error($errorMessage);
             throw new \Exception($errorMessage);
         }
@@ -66,8 +67,13 @@ class NaturalUserService implements ReceivableInterface, PayableInterface
         $transaction->status = TransactionStatusEnum::Failed;
         $transaction->save();
 
-        $message = 'Transaction Failed. No Authorized.';
+        $message = 'Transaction Failed. Not Authorized.';
         Log::info($message);
         throw new \Exception($message);
+    }
+
+    public function notify(): void
+    {
+        ## build notify service
     }
 }

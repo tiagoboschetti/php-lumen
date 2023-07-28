@@ -23,7 +23,7 @@ class LegalUserServiceTest extends TestCase
         $this->user->wallet = WalletModel::factory(['user_id' => $this->user->id, 'available_balance' => 0])->create();
     }
 
-    public function test_ReceiveMoney_ShouldReceiveNeededMoneyAndAddInWallet(): void
+    public function test_ReceiveMoney_ShouldReceiveNeededMoneyAndAddToWallet(): void
     {
         $service = new LegalUserService($this->user);
 
@@ -33,7 +33,7 @@ class LegalUserServiceTest extends TestCase
         Assert::assertEquals($amount, $this->user->wallet->available_balance);
     }
 
-    public function test_ReceiveMoney_ShouldReceiveMoneyAsFloatAndAddInWallet(): void
+    public function test_ReceiveMoney_ShouldReceiveMoneyFloatAndAddToWallet(): void
     {
         $service = new LegalUserService($this->user);
 

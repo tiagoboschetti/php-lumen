@@ -35,39 +35,39 @@ class NaturalUserServiceTest extends TestCase
         $balance = $this->user->wallet->available_balance;
 
         $service = new NaturalUserService($this->user);
-        $transaction = $this->createTransaction($amount = 99.99);
+        $transaction = $this->createTransaction($amount = 67.54);
         $service->pay($transaction);
 
         Assert::assertEquals($balance - $amount, $this->user->wallet->available_balance);
     }
 
-    public function test_Pay_ShouldDoNotAuthorizeThrowException(): void
+    public function test_Pay_ShouldNotAuthorizeThrowException(): void
     {
         $this->setUpGuzzleClientForError();
-        $this->expectExceptionMessage('Transaction Failed. No Authorized.');
+        $this->expectExceptionMessage('Transaction Failed. Not Authorized.');
 
         $service = new NaturalUserService($this->user);
-        $transaction = $this->createTransaction($amount = 99.99);
+        $transaction = $this->createTransaction($amount = 67.54);
         $service->pay($transaction);
 
         Assert::assertEquals(TransactionStatusEnum::Failed, $transaction->status);
     }
 
-    public function test_ReceiveMoney_ShouldReceiveNeededMoneyAndAddInWallet(): void
+    public function test_ReceiveMoney_ShouldReceiveNeededMoneyAndAddToWallet(): void
     {
         $service = new NaturalUserService($this->user);
 
-        $transaction = $this->createTransaction($amount = 100);
+        $transaction = $this->createTransaction($amount = 500);
         $service->receiveMoney($transaction);
 
         Assert::assertEquals($amount, $this->user->wallet->available_balance);
     }
 
-    public function test_ReceiveMoney_ShouldReceiveMoneyAsFloatAndAddInWallet(): void
+    public function test_ReceiveMoney_ShouldReceiveMoneyFloatAndAddToWallet(): void
     {
         $service = new NaturalUserService($this->user);
 
-        $transaction = $this->createTransaction($amount = 199.45);
+        $transaction = $this->createTransaction($amount = 415.78);
         $service->receiveMoney($transaction);
 
         Assert::assertEquals($amount, $this->user->wallet->available_balance);

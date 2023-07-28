@@ -18,8 +18,8 @@ final class PaymentAuthorizationHttpClient
     public function __construct(Client $client)
     {
         $this->client = $client;
-        $this->baseUrl = config('pay-authorization.base_url');
-        $this->clientId = config('pay-authorization.client_id');
+        $this->baseUrl = config('payment-authorization.base_url');
+        $this->clientId = config('payment-authorization.client_id');
     }
 
     public function authorize(): ResponseInterface

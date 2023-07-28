@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('public.wallets', function (Blueprint $table) {
+        Schema::create('wallets', function (Blueprint $table) {
             $table->id();
             $table->decimal('available_balance', 11, 2);
             $table->foreignId('user_id')->constrained('users');

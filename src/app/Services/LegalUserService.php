@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Interfaces\ReceivableInterface;
 use App\Models\TransactionModel;
+use App\Models\DepositModel;
 use App\Models\UserModel;
 
 class LegalUserService implements ReceivableInterface
@@ -19,12 +20,17 @@ class LegalUserService implements ReceivableInterface
     {
         $this->user->wallet->available_balance = $this->user->wallet->available_balance + $transaction->amount;
         $this->user->wallet->save();
+        //$this->notify();
+    }
+
+    public function depositMoney(DepositModel $deposit): void
+    {
+        $this->user->wallet->available_balance = $this->user->wallet->available_balance + $deposit->amount;
+        $this->user->wallet->save();
     }
 
     public function notify(): void
     {
-        // implementar serviço de envio de notificação
-        // cenário ideal seria jogar para um sqs/kafka para enviar assincronamente
-        // e se ao acaso serviço estiver disponivel, criar um command/job para retentar
+        ## build notify service
     }
 }

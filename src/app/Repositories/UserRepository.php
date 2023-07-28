@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\DTOs\UserDTO;
 use App\Interfaces\UserRepositoryInterface;
 use App\Models\UserModel;
-use App\Services\UserRelationshipService;
+use App\Services\UserAssetService;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -22,16 +22,16 @@ class UserRepository implements UserRepositoryInterface
                     'email' => $userDto->getEmail(),
                     'type' => $userDto->getType()->value,
                     'active' => true,
-                    'password' => Hash::make(Str::random(8)),
+                    'password' => Hash::make(Str::random(14)),
                 ]);
 
-                UserRelationshipService::saveDocument(
+                UserAssetService::saveDocument(
                     $userDto->getDocumentType(),
                     $userDto->getDocumentNumber(),
                     $user->id,
                 );
 
-                UserRelationshipService::createWallet($user->id);
+                UserAssetService::createWallet($user->id);
 
                 return $user;
             });

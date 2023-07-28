@@ -19,3 +19,4 @@ $router->get('/', function () use ($router) {
 
 $router->post('transaction', '\App\Http\Controllers\TransactionController@create');
 $router->post('user', '\App\Http\Controllers\UserController@store');
+$router->post('deposit', '\App\Http\Controllers\DepositController@deposit');
