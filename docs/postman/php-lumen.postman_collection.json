@@ -1,0 +1,299 @@
+{
+	"info": {
+		"_postman_id": "b84e5be7-6b39-4e9c-90f0-d09fd107bc7a",
+		"name": "php-lumen",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "413121"
+	},
+	"item": [
+		{
+			"name": "hello",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9090",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user store",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Fujiwara Takumi\",\r\n    \"email\": \"takumi.ae86@gmail.com\",\r\n    \"type\": \"natural\",\r\n    \"document_type\": \"cpf\",\r\n    \"document_number\": \"64542524000\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "natural user example",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Fujiwara Takumi\",\r\n    \"email\": \"takumi.ae86@gmail.com\",\r\n    \"type\": \"natural\",\r\n    \"document_type\": \"cpf\",\r\n    \"document_number\": \"64542524000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9090/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"user"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": "{\r\n    \"data\": {\r\n        \"name\": \"Fujiwara Takumi\",\r\n        \"email\": \"takumi.ae86@gmail.com\",\r\n        \"type\": \"natural\",\r\n        \"document\": {\r\n            \"type\": \"cpf\",\r\n            \"numer\": \"64542524000\"\r\n        }\r\n    }\r\n}"
+				},
+				{
+					"name": "legal user example",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Fujiwara Tofu Shop\",\r\n    \"email\": \"fujiwara@tofu.com\",\r\n    \"type\": \"legal\",\r\n    \"document_type\": \"cnpj\",\r\n    \"document_number\": \"80687044000170\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9090/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"user"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": "{\r\n    \"data\": {\r\n        \"name\": \"Fujiwara Tofu Shop\",\r\n        \"email\": \"fujiwara@tofu.com\",\r\n        \"type\": \"legal\",\r\n        \"document\": {\r\n            \"type\": \"cnpj\",\r\n            \"numer\": \"80687044000170\"\r\n        }\r\n    }\r\n}"
+				}
+			]
+		},
+		{
+			"name": "transaction",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"amount\": 1000,\r\n    \"payer\": 1,\r\n    \"payee\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/transaction",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"transaction"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "transaction (Natural -> Legal)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"amount\": 1000,\r\n    \"payer\": 1,\r\n    \"payee\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9090/transaction",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"transaction"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": "\"Payment successful!\""
+				},
+				{
+					"name": "transaction (Legal -> Natural)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"amount\": 500,\r\n    \"payer\": 2,\r\n    \"payee\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9090/transaction",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"transaction"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": "\"Legal users cannot perform transactions.\""
+				},
+				{
+					"name": "transaction (Insufficient balance!)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"amount\": 10000,\r\n    \"payer\": 1,\r\n    \"payee\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9090/transaction",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"transaction"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": "\"Insufficient balance!\""
+				}
+			]
+		},
+		{
+			"name": "deposit",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"amount\": 5000,\r\n    \"payee\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/deposit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"deposit"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "deposit example",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"amount\": 5000,\r\n    \"payee\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9090/transaction",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9090",
+							"path": [
+								"transaction"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": "\"Deposit successful!\""
+				}
+			]
+		}
+	]
+}
